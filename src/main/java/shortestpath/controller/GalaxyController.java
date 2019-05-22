@@ -9,26 +9,27 @@ import shortestpath.constants.GalaxyExceptionConstants;
 import shortestpath.exceptions.GalaxyException;
 import shortestpath.model.Galaxy;
 import shortestpath.model.SuccessIndicator;
-import shortestpath.services.GalaxyService;
+import shortestpath.services.GalaxyInterface;
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@Api(tags = "Galaxy Controller")
+@Api("Galaxy-CRUD-Operations")
 public class GalaxyController {
 
-    private GalaxyService galaxyService;
+
+    private GalaxyInterface galaxyService;
 
     @Autowired
-    public GalaxyController(GalaxyService galaxyService){
+    public GalaxyController(GalaxyInterface galaxyService){
 
         this.galaxyService = galaxyService;
     }
 
     @PostMapping(path="/creategalaxy")
-    public List<Galaxy> generateGraph()  {
+    public List<Galaxy> createGalaxy()  {
 
-        return galaxyService.persistGalaxyToDB();
+        return galaxyService.persistGalaxyToDerby();
 
     }
 
@@ -38,7 +39,7 @@ public class GalaxyController {
         Iterable<Galaxy> galaxies = galaxyService.getGalaxy();
 
         if (ObjectUtils.isEmpty(galaxies)) {
-            throw new GalaxyException(GalaxyExceptionConstants.galaxyNotFound);
+            throw new GalaxyException(GalaxyExceptionConstants.GALAXY_NOT_FOUND);
         }
 
         return galaxies;
@@ -47,11 +48,21 @@ public class GalaxyController {
     @PostMapping(path="/addplanet", produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessIndicator addGalaxy(@RequestBody Galaxy planet){
 
-        if(planet == null){
+        if(ObjectUtils.isEmpty(planet)){
             throw new GalaxyException("Pass the correct planet to add");
         }
 
         return galaxyService.addPlanet(planet);
+    }
+
+    @PostMapping(path="/deleteplanet", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessIndicator deletePlanet(@RequestBody Galaxy planet){
+
+        if(ObjectUtils.isEmpty(planet)){
+            throw new GalaxyException("Pass the correct planet to add");
+        }
+
+        return galaxyService.deletePlanet(planet);
     }
 
 }

@@ -1,14 +1,13 @@
 package shortestpath.exceptions;
 
-public class GalaxyException extends RuntimeException{
+import lombok.NoArgsConstructor;
 
-        public GalaxyException(){
+@NoArgsConstructor
+public class GalaxyException extends RuntimeException {
 
-        }
-
-        public GalaxyException(String message){
-            super(message);
-        }
+    public GalaxyException(String message) {
+        super(message);
+    }
 
 }
 

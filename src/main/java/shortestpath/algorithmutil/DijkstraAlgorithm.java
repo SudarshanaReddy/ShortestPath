@@ -1,27 +1,36 @@
 package shortestpath.algorithmutil;
 
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.jws.WebService;
 import java.util.*;
 
+@WebService(name="ShortestPathAlgorithm", endpointInterface = "shortestpath.algorithmutil.DijkstraAlgorithm")
+@NoArgsConstructor
+@AllArgsConstructor
 public class DijkstraAlgorithm {
 
-    private final List<Planet> nodes;
-    private final List<Edge> edges;
+    private List<Planet> nodes;
+    private List<Edge> edges;
     private Set<Planet> settledNodes;
     private Set<Planet> unSettledNodes;
     private Map<Planet, Planet> predecessors;
     private Map<Planet, Double> distance;
 
+
     public DijkstraAlgorithm(Graph graph) {
         // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<Planet>(graph.getPlanets());
-        this.edges = new ArrayList<Edge>(graph.getEdges());
+        this.nodes = new ArrayList<>(graph.getVertices());
+        this.edges = new ArrayList<>(graph.getEdges());
     }
 
     public void execute(Planet source) {
-        settledNodes = new HashSet<Planet>();
-        unSettledNodes = new HashSet<Planet>();
-        distance = new HashMap<Planet, Double>();
-        predecessors = new HashMap<Planet, Planet>();
+        settledNodes = new HashSet<>();
+        unSettledNodes = new HashSet<>();
+        distance = new HashMap<>();
+        predecessors = new HashMap<>();
         distance.put(source, 0D);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
@@ -47,17 +56,19 @@ public class DijkstraAlgorithm {
     }
 
     private double getDistance(Planet node, Planet target) {
+
+        double edgeDistance = 0D;
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && edge.getDestination().equals(target)) {
-                return edge.getDistance();
+                edgeDistance = edge.getDistance();
             }
         }
-        throw new RuntimeException("Should not happen");
+        return edgeDistance;
     }
 
     private List<Planet> getNeighbors(Planet node) {
-        List<Planet> neighbors = new ArrayList<Planet>();
+        List<Planet> neighbors = new ArrayList<>();
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
@@ -67,9 +78,9 @@ public class DijkstraAlgorithm {
         return neighbors;
     }
 
-    private Planet getMinimum(Set<Planet> planets) {
+    private Planet getMinimum(Set<Planet> vertices) {
         Planet minimum = null;
-        for (Planet planet : planets) {
+        for (Planet planet : vertices) {
             if (minimum == null) {
                 minimum = planet;
             } else {
@@ -98,12 +109,12 @@ public class DijkstraAlgorithm {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists
      */
-    public LinkedList<Planet> getPath(Planet target) {
-        LinkedList<Planet> path = new LinkedList<Planet>();
+    public List<Planet> getPath(Planet target) {
+        LinkedList<Planet> path = new LinkedList<>();
         Planet step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
-            return null;
+            return path;
         }
         path.add(step);
         while (predecessors.get(step) != null) {

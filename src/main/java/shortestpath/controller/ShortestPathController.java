@@ -1,6 +1,7 @@
 package shortestpath.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,9 @@ import shortestpath.algorithmutil.Planet;
 import shortestpath.constants.GalaxyExceptionConstants;
 import shortestpath.exceptions.GalaxyException;
 import shortestpath.model.Galaxy;
+import shortestpath.services.GalaxyInterface;
 import shortestpath.services.GalaxyService;
+import shortestpath.services.ShortestPathInterface;
 import shortestpath.services.ShortestPathService;
 
 import java.util.List;
@@ -20,34 +23,35 @@ import java.util.List;
 @RestController
 public class ShortestPathController {
 
-    private GalaxyService galaxyService;
+    private GalaxyInterface galaxyService;
 
-    private ShortestPathService shortestPathService;
+    private ShortestPathInterface shortestPathService;
 
     @Autowired
-    public ShortestPathController(GalaxyService galaxyService, ShortestPathService shortestPathService){
+    public ShortestPathController(GalaxyInterface galaxyService, ShortestPathInterface shortestPathService){
         this.galaxyService = galaxyService;
         this.shortestPathService = shortestPathService;
     }
 
+    @ApiOperation(tags="calculates shortest path", value="Calculates the shortest path from given source planet to destination planet")
     @GetMapping(path="/calculateshortestpath/{originPlanet}/{destinationPlanet}")
     public List<Planet> shortestPath(@PathVariable("originPlanet") String originPlanet,
                                      @PathVariable("destinationPlanet") String destinationPlanet){
 
        if(originPlanet == null){
-          throw new GalaxyException(GalaxyExceptionConstants.originPlanetException);
+          throw new GalaxyException(GalaxyExceptionConstants.ORIGIN_PLANET_IS_NULL);
        }
        else if(destinationPlanet == null){
-          throw new GalaxyException(GalaxyExceptionConstants.destinationPlanetException);
+          throw new GalaxyException(GalaxyExceptionConstants.DESTINATION_PLANET_IS_NULL);
        }
        else if(originPlanet.equalsIgnoreCase(destinationPlanet)){
-          throw new GalaxyException(GalaxyExceptionConstants.sourceDestinationException);
+          throw new GalaxyException(GalaxyExceptionConstants.SOURCE_PLANET_AND_DESTINATION_PLANET_CANNOT_BE_SAME);
        }
-
 
        Iterable<Galaxy> galaxy = galaxyService.getGalaxy();
 
-       return shortestPathService.calculateShortestPath(galaxy, originPlanet, destinationPlanet);
+       System.err.println("Shortest path interface called...");
+       return shortestPathService.calculateShortestPathWithoutTraffic(galaxy, originPlanet, destinationPlanet);
 
     }
 

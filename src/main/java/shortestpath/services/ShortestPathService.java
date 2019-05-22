@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShortestPathService {
+public class ShortestPathService implements ShortestPathInterface{
 
     private List<Planet> planetList = new ArrayList<>();
     private List<Edge> edgeList = new ArrayList<>();
 
-    public List<Planet> calculateShortestPath(Iterable<Galaxy> galaxy, String startPlanet, String targetPlanet) {
+    @Override
+    public List<Planet> calculateShortestPathWithoutTraffic(Iterable<Galaxy> galaxy, String startPlanet, String targetPlanet) {
 
         Graph graph = generateGraph(galaxy);
 
@@ -27,7 +28,7 @@ public class ShortestPathService {
 
     }
 
-   Graph generateGraph(Iterable<Galaxy> galaxy){
+   private Graph generateGraph(Iterable<Galaxy> galaxy){
 
        for(int i=65;i<90;i++){
            Character name = (char)i;

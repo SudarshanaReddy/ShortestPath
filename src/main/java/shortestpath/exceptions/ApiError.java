@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiError {
+class ApiError {
 
     private HttpStatus status;
     private String message;

@@ -9,4 +9,8 @@ public class ShortestPathServiceTest {
     @Test
     public void calculateShortestPath() {
     }
+
+    @Test
+    public void generateGraph() {
+    }
 }

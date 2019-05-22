@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Graph {
 
-    private List<Planet> planets;
+    private List<Planet> vertices;
     private List<Edge> edges;
 
 }

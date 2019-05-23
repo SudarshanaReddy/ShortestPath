@@ -12,10 +12,7 @@ import shortestpath.constants.GalaxyExceptionConstants;
 import shortestpath.exceptions.GalaxyException;
 import shortestpath.model.Galaxy;
 import shortestpath.services.GalaxyInterface;
-import shortestpath.services.GalaxyService;
 import shortestpath.services.ShortestPathInterface;
-import shortestpath.services.ShortestPathService;
-
 import java.util.List;
 
 @CrossOrigin
@@ -33,7 +30,6 @@ public class ShortestPathController {
         this.shortestPathService = shortestPathService;
     }
 
-    @ApiOperation(tags="calculates shortest path", value="Calculates the shortest path from given source planet to destination planet")
     @GetMapping(path="/calculateshortestpath/{originPlanet}/{destinationPlanet}")
     public List<Planet> shortestPath(@PathVariable("originPlanet") String originPlanet,
                                      @PathVariable("destinationPlanet") String destinationPlanet){
@@ -50,7 +46,6 @@ public class ShortestPathController {
 
        Iterable<Galaxy> galaxy = galaxyService.getGalaxy();
 
-       System.err.println("Shortest path interface called...");
        return shortestPathService.calculateShortestPathWithoutTraffic(galaxy, originPlanet, destinationPlanet);
 
     }

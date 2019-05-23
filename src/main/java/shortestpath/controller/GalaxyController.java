@@ -10,6 +10,8 @@ import shortestpath.exceptions.GalaxyException;
 import shortestpath.model.Galaxy;
 import shortestpath.model.SuccessIndicator;
 import shortestpath.services.GalaxyInterface;
+
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -27,7 +29,7 @@ public class GalaxyController {
     }
 
     @PostMapping(path="/creategalaxy")
-    public List<Galaxy> createGalaxy()  {
+    public List<Galaxy> createGalaxy() throws IOException {
 
         return galaxyService.persistGalaxyToDerby();
 
@@ -46,7 +48,7 @@ public class GalaxyController {
     }
 
     @PostMapping(path="/addplanet", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessIndicator addGalaxy(@RequestBody Galaxy planet){
+    public SuccessIndicator addPlanet(@RequestBody Galaxy planet){
 
         if(ObjectUtils.isEmpty(planet)){
             throw new GalaxyException("Pass the correct planet to add");
@@ -63,6 +65,13 @@ public class GalaxyController {
         }
 
         return galaxyService.deletePlanet(planet);
+    }
+
+    @GetMapping(path="/getAllPlanets")
+    public List<String> getAllPlanets(){
+
+        return galaxyService.getAllPlanets();
+
     }
 
 }

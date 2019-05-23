@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Planet {
 
+    private double routeID;
     private String originPlanet;
     private String destinationPlanet;
     private double distance;

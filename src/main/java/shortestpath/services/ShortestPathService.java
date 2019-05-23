@@ -16,7 +16,8 @@ public class ShortestPathService implements ShortestPathInterface{
     private List<Edge> edgeList = new ArrayList<>();
 
     @Override
-    public List<Planet> calculateShortestPathWithoutTraffic(Iterable<Galaxy> galaxy, String startPlanet, String targetPlanet) {
+    public List<Planet> calculateShortestPathWithoutTraffic(Iterable<Galaxy> galaxy,
+                                                            String startPlanet, String targetPlanet) {
 
         Graph graph = generateGraph(galaxy);
 

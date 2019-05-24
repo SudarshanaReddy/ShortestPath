@@ -48,8 +48,13 @@ public class GalaxyService implements GalaxyInterface {
         this.galaxyRepository = galaxyRepository;
     }
 
+    /**
+     * This method persists galaxy data into Derby Database
+     *
+     * @return list of galaxy object
+     */
     @Override
-    public List<Galaxy> persistGalaxyToDerby()  {
+    public List<Galaxy> persistGalaxyToDerby() {
 
         List<Galaxy> galaxyList = readRouteMapSpreadSheet();
 
@@ -84,8 +89,13 @@ public class GalaxyService implements GalaxyInterface {
         return successIndicator;
     }
 
+    /**
+     * This methods returns the list of all planets
+     *
+     * @return
+     */
     @Override
-    public List<String> getAllPlanets(){
+    public List<String> getAllPlanets() {
 
         List<String> planetNames = new ArrayList<>();
         try {
@@ -97,25 +107,25 @@ public class GalaxyService implements GalaxyInterface {
             Iterator<Row> planetNamesIterator = planetNamesWorkSheet.iterator();
 
             boolean firstRow = true;
-            while(planetNamesIterator.hasNext()){
+            while (planetNamesIterator.hasNext()) {
                 Row planetNamesRow = planetNamesIterator.next();
-                if(firstRow){
+                if (firstRow) {
                     firstRow = false;
-                }else {
+                } else {
                     String planetName = planetNamesRow.getCell(1).getStringCellValue();
                     planetNames.add(planetName);
                 }
             }
             excelFile.close();
             workbook.close();
-        }catch (IOException exception){
+        } catch (IOException exception) {
             throw new GalaxyIOException("Error opening the file");
         }
 
         return planetNames;
     }
 
-    private List<Galaxy> readRouteMapSpreadSheet()  {
+    private List<Galaxy> readRouteMapSpreadSheet() {
 
         logger.info("method called...");
         logger.info("Route Map Path:" + routeMapFilePath);
@@ -166,7 +176,7 @@ public class GalaxyService implements GalaxyInterface {
 
             excelFile.close();
             workbook.close();
-        }catch(IOException excelption){
+        } catch (IOException excelption) {
             throw new GalaxyIOException("IOEXception when opening the route map file");
         }
 
@@ -188,20 +198,20 @@ public class GalaxyService implements GalaxyInterface {
         return successIndicator;
     }
 
-    public Map<String, String> planetNamesMap(Iterator<Row> planetNamesIterator){
+    public Map<String, String> planetNamesMap(Iterator<Row> planetNamesIterator) {
 
         boolean firstRow = true;
-        Map<String,String> planetsMap = new HashMap<>();
-        while(planetNamesIterator.hasNext()){
+        Map<String, String> planetsMap = new HashMap<>();
+        while (planetNamesIterator.hasNext()) {
 
             Row planetNamesRow = planetNamesIterator.next();
 
-            if(firstRow){
+            if (firstRow) {
                 firstRow = false;
-            }else{
+            } else {
                 String planetNode = planetNamesRow.getCell(0).getStringCellValue();
                 String planetName = planetNamesRow.getCell(1).getStringCellValue();
-                planetsMap.put(planetNode,planetName);
+                planetsMap.put(planetNode, planetName);
             }
         }
         return planetsMap;

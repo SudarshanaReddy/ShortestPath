@@ -1,27 +1,27 @@
 package shortestpath.services;
 
 import org.springframework.stereotype.Service;
-import shortestpath.algorithmutil.DijkstraAlgorithm;
-import shortestpath.algorithmutil.Edge;
-import shortestpath.algorithmutil.Graph;
+import shortestpath.algorithmutil.DijkstraShortestPathAlgorithm;
+import shortestpath.algorithmutil.GalaxyGraph;
 import shortestpath.algorithmutil.Planet;
+import shortestpath.algorithmutil.PlanetEdges;
 import shortestpath.model.Galaxy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShortestPathService implements ShortestPathInterface{
+public class ShortestPathService implements ShortestPathInterface {
 
-    private List<Planet> planetList = new ArrayList<>();
-    private List<Edge> edgeList = new ArrayList<>();
+    private List<PlanetEdges> planetEdgesList = new ArrayList<>();
 
     @Override
     public List<Planet> calculateShortestPathWithoutTraffic(Iterable<Galaxy> galaxy,
                                                             String startPlanet, String targetPlanet) {
 
-        Graph graph = generateGraph(galaxy);
+        GalaxyGraph galaxyGraph = generateGraph(galaxy);
 
-        DijkstraAlgorithm algo = new DijkstraAlgorithm(graph);
+        DijkstraShortestPathAlgorithm algo = new DijkstraShortestPathAlgorithm(galaxyGraph);
 
         algo.execute(new Planet(startPlanet));
 
@@ -29,27 +29,29 @@ public class ShortestPathService implements ShortestPathInterface{
 
     }
 
-   private Graph generateGraph(Iterable<Galaxy> galaxy){
 
-       for(int i=65;i<90;i++){
-           Character name = (char)i;
-           Planet planet = new Planet(name.toString());
-           planetList.add(planet);
-       }
+    /**
+     * This method creates a connecting graph that represents a galaxy
+     * param galaxy - Iterable galaxy object
+     *
+     * @return the GalaxyGraph Object
+     */
+    private GalaxyGraph generateGraph(Iterable<Galaxy> galaxy) {
 
-       galaxy.forEach(galaxyObject ->{
 
-           String sourcePlanet = galaxyObject.getOriginPlanet();
-           String destinationPlanet = galaxyObject.getDestinationPlanet();
-           double distance = galaxyObject.getDistance();
+        galaxy.forEach(galaxyObject -> {
 
-           Edge edge = new Edge(new Planet(sourcePlanet),new Planet(destinationPlanet),distance);
+            String sourcePlanet = galaxyObject.getOriginPlanet();
+            String destinationPlanet = galaxyObject.getDestinationPlanet();
+            double distance = galaxyObject.getDistance();
 
-           edgeList.add(edge);
+            PlanetEdges planetEdges = new PlanetEdges(new Planet(sourcePlanet), new Planet(destinationPlanet), distance);
 
-       });
+            planetEdgesList.add(planetEdges);
 
-       return new Graph(planetList,edgeList);
+        });
 
-   }
+        return new GalaxyGraph(planetEdgesList);
+
+    }
 }

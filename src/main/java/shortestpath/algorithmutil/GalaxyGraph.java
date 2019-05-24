@@ -9,9 +9,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Graph {
+public class GalaxyGraph {
 
-    private List<Planet> vertices;
-    private List<Edge> edges;
+    private List<PlanetEdges> planetEdges;
 
 }

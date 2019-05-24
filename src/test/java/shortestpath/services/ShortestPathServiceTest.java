@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import shortestpath.algorithmutil.Graph;
+import shortestpath.algorithmutil.GalaxyGraph;
 import shortestpath.model.Galaxy;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,7 +40,7 @@ public class ShortestPathServiceTest {
         galaxy.setDistance(10);
         galaxy.setTraffic(10000);
 
-        Graph graph = (Graph) method.invoke(shortestPathService,galaxyList);
+        GalaxyGraph galaxyGraph = (GalaxyGraph) method.invoke(shortestPathService,galaxyList);
 
         Assert.assertEquals("Earth",galaxy.getOriginPlanet());
 

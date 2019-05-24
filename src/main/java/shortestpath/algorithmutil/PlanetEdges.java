@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Edge {
+public class PlanetEdges {
     private String id;
     private Planet source;
     private Planet destination;
     private double distance;
     private double traffic;
 
-    public Edge(Planet source, Planet destination, double distance){
+    public PlanetEdges(Planet source, Planet destination, double distance) {
         this.source = source;
         this.destination = destination;
         this.distance = distance;

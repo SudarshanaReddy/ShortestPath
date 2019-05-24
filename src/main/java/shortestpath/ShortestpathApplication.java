@@ -2,7 +2,7 @@ package shortestpath;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import shortestpath.algorithmutil.DijkstraAlgorithm;
+import shortestpath.algorithmutil.DijkstraShortestPathAlgorithm;
 
 import javax.xml.ws.Endpoint;
 
@@ -13,7 +13,7 @@ public class ShortestpathApplication {
 
         SpringApplication.run(ShortestpathApplication.class, args);
 
-        Endpoint.publish("http://localhost:8082/algorithm",new DijkstraAlgorithm());
+        Endpoint.publish("http://localhost:8082/algorithm",new DijkstraShortestPathAlgorithm());
     }
 
 }

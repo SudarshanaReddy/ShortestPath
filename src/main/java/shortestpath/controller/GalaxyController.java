@@ -23,12 +23,12 @@ public class GalaxyController {
     private GalaxyInterface galaxyService;
 
     @Autowired
-    public GalaxyController(GalaxyInterface galaxyService){
+    public GalaxyController(GalaxyInterface galaxyService) {
 
         this.galaxyService = galaxyService;
     }
 
-    @PostMapping(path="/creategalaxy")
+    @PostMapping(path = "/creategalaxy")
     public List<Galaxy> createGalaxy() throws IOException {
 
         return galaxyService.persistGalaxyToDerby();
@@ -47,28 +47,28 @@ public class GalaxyController {
         return galaxies;
     }
 
-    @PostMapping(path="/addplanet", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessIndicator addPlanet(@RequestBody Galaxy planet){
+    @PostMapping(path = "/addplanet", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessIndicator addPlanet(@RequestBody Galaxy planet) {
 
-        if(ObjectUtils.isEmpty(planet)){
+        if (ObjectUtils.isEmpty(planet)) {
             throw new GalaxyException("Pass the correct planet to add");
         }
 
         return galaxyService.addPlanet(planet);
     }
 
-    @PostMapping(path="/deleteplanet", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessIndicator deletePlanet(@RequestBody Galaxy planet){
+    @PostMapping(path = "/deleteplanet", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessIndicator deletePlanet(@RequestBody Galaxy planet) {
 
-        if(ObjectUtils.isEmpty(planet)){
+        if (ObjectUtils.isEmpty(planet)) {
             throw new GalaxyException("Pass the correct planet to add");
         }
 
         return galaxyService.deletePlanet(planet);
     }
 
-    @GetMapping(path="/getAllPlanets")
-    public List<String> getAllPlanets(){
+    @GetMapping(path = "/getAllPlanets")
+    public List<String> getAllPlanets() {
 
         return galaxyService.getAllPlanets();
 
